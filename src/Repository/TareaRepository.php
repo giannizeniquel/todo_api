@@ -19,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class TareaRepository extends ServiceEntityRepository
 {
     private $manager;
-    
+
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Tarea::class);
@@ -38,7 +38,16 @@ class TareaRepository extends ServiceEntityRepository
         $this->manager->persist($tarea);
         $this->manager->flush();
     }
-    
+
+    public function findOneById($id): ?Tarea
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 
 //    /**
 //     * @return Tarea[] Returns an array of Tarea objects
@@ -52,16 +61,6 @@ class TareaRepository extends ServiceEntityRepository
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Tarea
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
 //        ;
 //    }
 }

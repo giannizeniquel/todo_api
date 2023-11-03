@@ -28,7 +28,7 @@ class TareaController extends AbstractController
     }
         
     /**
-      * @Route("tarea", name="crear_tarea", methods={"POST"})
+      * @Route("tarea", name="add_tarea", methods={"POST"})
       */
     public function createTarea(Request $request): JsonResponse
     {
@@ -39,7 +39,7 @@ class TareaController extends AbstractController
         $user = new User();
 
         if(empty($titulo) || empty($descripcion)){
-            throw new NotFoundHttpException('Hay datos vacios que son de caracter obligatorio');
+            throw new NotFoundHttpException('Hay datos vacios que son de caracter obligatorio.');
         }
         
         $user = $this->userRepository->findOneById($userId);
@@ -47,4 +47,36 @@ class TareaController extends AbstractController
 
         return new JsonResponse(['status' => 'Tarea creada!'], Response::HTTP_CREATED);
     }
+
+    /**
+      * @Route("tarea/{id}", name="get_one_tarea", methods={"GET"})
+      */
+    public function getOneTarea($id): JsonResponse
+    {
+        $tarea = $this->tareaRepository->findOneById($id);
+        $data = [
+            'id' => $tarea->getId(),
+            'titulo' => $tarea->getTitulo(),
+            'descripcion' => $tarea->getDescripcion(),
+            'terminada' => $tarea->isTerminada(),
+            'fechaCreacion' => date('d-m-Y H:i',$tarea->getCreatedAt()->getTimestamp()),
+            'user' => $tarea->getUser()->getNombre(),
+        ];
+
+        if(empty($data) || is_null($id)){
+            throw new NotFoundHttpException('No existe esa tarea.');
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    /**
+      * @Route("tareas", name="get_all_tareas", methods={"GET"})
+      */
+    public function getAllTareas(Request $request): JsonResponse
+    {
+
+        return new JsonResponse();
+    }
+    
 }
