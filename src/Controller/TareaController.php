@@ -37,7 +37,7 @@ class TareaController extends AbstractController
         if(empty($data) || is_null($data)){
             throw new NotFoundHttpException('No se pudo crear la tarea. No se recibieron datos.');
         }
-        
+
         $titulo = $data['titulo'];
         $descripcion = $data['descripcion'];
         $userId = 1;
@@ -77,12 +77,33 @@ class TareaController extends AbstractController
     }
 
     /**
-      * @Route("tareas", name="get_all_tareas", methods={"GET"})
+      * @Route("tareas/{userId}", name="get_all_tareas", methods={"GET"})
       */
-    public function getAllTareas(Request $request): JsonResponse
+    public function getAllTareas($userId): JsonResponse
     {
+        if(empty($userId) || is_null($userId)){
+            throw new NotFoundHttpException('Usuario invalido.');
+        }
 
-        return new JsonResponse();
+        $tareas = $this->tareaRepository->findByTareasUser($userId);
+        $data = [];
+
+        if( empty($tareas) || is_null($tareas)){
+            throw new NotFoundHttpException('Sin tareas.');
+        }
+
+        foreach ($tareas as $tarea) {
+            $data[] = [
+                'id' => $tarea->getId(),
+                'titulo' => $tarea->getTitulo(),
+                'descripcion' => $tarea->getDescripcion(),
+                'terminada' => $tarea->isTerminada(),
+                'fechaCreacion' => date('d-m-Y H:i', $tarea->getCreatedAt()->getTimestamp()),
+                'user' => $tarea->getUser()->getNombre(),
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
     
 }
