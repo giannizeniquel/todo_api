@@ -70,7 +70,7 @@ class TareaController extends AbstractController
             'descripcion' => $tarea->getDescripcion(),
             'terminada' => $tarea->isTerminada(),
             'fechaCreacion' => date('d-m-Y H:i',$tarea->getCreatedAt()->getTimestamp()),
-            'user' => $tarea->getUser()->getNombre(),
+            'user' => $tarea->getUser()->getName(),
         ];
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -99,7 +99,7 @@ class TareaController extends AbstractController
                 'descripcion' => $tarea->getDescripcion(),
                 'terminada' => $tarea->isTerminada(),
                 'fechaCreacion' => date('d-m-Y H:i', $tarea->getCreatedAt()->getTimestamp()),
-                'user' => $tarea->getUser()->getNombre(),
+                'user' => $tarea->getUser()->getName(),
             ];
         }
 
