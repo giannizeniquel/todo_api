@@ -33,13 +33,18 @@ class TareaController extends AbstractController
     public function createTarea(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        if(empty($data) || is_null($data)){
+            throw new NotFoundHttpException('No se pudo crear la tarea. No se recibieron datos.');
+        }
+        
         $titulo = $data['titulo'];
         $descripcion = $data['descripcion'];
         $userId = 1;
         $user = new User();
 
         if(empty($titulo) || empty($descripcion)){
-            throw new NotFoundHttpException('Hay datos vacios que son de caracter obligatorio.');
+            throw new NotFoundHttpException('No se pudo crear la tarea. Hay datos vacios que son de caracter obligatorio.');
         }
         
         $user = $this->userRepository->findOneById($userId);
