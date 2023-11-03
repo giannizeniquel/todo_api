@@ -54,6 +54,11 @@ class TareaController extends AbstractController
     public function getOneTarea($id): JsonResponse
     {
         $tarea = $this->tareaRepository->findOneById($id);
+
+        if(empty($tarea) || is_null($tarea) || is_null($id)){
+            throw new NotFoundHttpException('No existe esa tarea.');
+        }
+
         $data = [
             'id' => $tarea->getId(),
             'titulo' => $tarea->getTitulo(),
@@ -62,10 +67,6 @@ class TareaController extends AbstractController
             'fechaCreacion' => date('d-m-Y H:i',$tarea->getCreatedAt()->getTimestamp()),
             'user' => $tarea->getUser()->getNombre(),
         ];
-
-        if(empty($data) || is_null($id)){
-            throw new NotFoundHttpException('No existe esa tarea.');
-        }
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
