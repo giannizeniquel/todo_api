@@ -122,9 +122,25 @@ class TareaController extends AbstractController
         empty($data['descripcion']) ? true : $tarea->setDescripcion($data['descripcion']);
         empty($data['terminada']) ? true : $tarea->setTerminada($data['terminada']);
 
-        $updateTarea = $this->tareaRepository->updateTarea($tarea);
-        
+        $this->tareaRepository->updateTarea($tarea);
+
         return new JsonResponse(['status' => 'Tarea modificada!'], Response::HTTP_OK);
+    }
+
+    /**
+      * @Route("tarea/{id}", name="delete_tarea", methods={"DELETE"})
+      */
+    public function deleteTarea($id): JsonResponse
+    {
+        $tarea = $this->tareaRepository->findOneById($id);
+
+        if(empty($tarea) || is_null($tarea)){
+            throw new NotFoundHttpException('La tarea no existe o no se encuentra.');
+        }
+
+        $this->tareaRepository->removeTarea($tarea);
+
+        return new JsonResponse(['status' => 'Tarea eliminada!'], Response::HTTP_OK);
     }
 
 }
