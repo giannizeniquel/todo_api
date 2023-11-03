@@ -105,5 +105,26 @@ class TareaController extends AbstractController
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
-    
+
+    /**
+      * @Route("tarea/{id}", name="update_tarea", methods={"PUT"})
+      */
+    public function updateTarea($id, Request $request): JsonResponse
+    {
+        $tarea = $this->tareaRepository->findOneById($id);
+        $data = json_decode($request->getContent(), true);
+        
+        if(empty($tarea) || is_null($tarea)){
+            throw new NotFoundHttpException('La tarea no existe o no se encuentra.');
+        }
+
+        empty($data['titulo']) ? true : $tarea->setTitulo($data['titulo']);
+        empty($data['descripcion']) ? true : $tarea->setDescripcion($data['descripcion']);
+        empty($data['terminada']) ? true : $tarea->setTerminada($data['terminada']);
+
+        $updateTarea = $this->tareaRepository->updateTarea($tarea);
+        
+        return new JsonResponse(['status' => 'Tarea modificada!'], Response::HTTP_OK);
+    }
+
 }

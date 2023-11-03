@@ -39,6 +39,14 @@ class TareaRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    public function updateTarea(Tarea $tarea): ?Tarea
+    {
+        $this->manager->persist($tarea);
+        $this->manager->flush();
+
+        return $tarea;
+    }
+
     public function findOneById($id): ?Tarea
     {
         return $this->createQueryBuilder('t')
