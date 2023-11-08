@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -33,21 +32,20 @@ class ApiRegisterController extends AbstractController
         if(empty($data) || is_null($data)){
             throw new NotFoundHttpException('No se pudo crear el usuario. No se recibieron datos.');
         }
-        
+
         $user = new User;
         $name = $data['name'];
         $email = $data['email'];
+        $role = ['ROLE_USER'];
         $plaintextPassword = $data['password'];
 
         // hash the password (based on the security.yaml config for the $user class)
-        $hashedPassword = $passwordHasher->hashPassword(
-            $user,
-            $plaintextPassword
-        );
+        $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
 
         $user->setName($name);
         $user->setEmail($email);
         $user->setPassword($hashedPassword);
+        $user->setRoles($role);
         
         $this->entityManager->persist($user);
         $this->entityManager->flush();
