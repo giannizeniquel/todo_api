@@ -1,0 +1,26 @@
+# .platform.app.yaml
+name: todo-api
+type: php:7.4
+
+# Definir variables de entorno
+variables:
+    env:
+        APP_ENV: "prod"
+        DATABASE_URL: "mysql://root:@mysql/todo_api"
+
+# Configuración de los comandos a ejecutar durante el despliegue
+hooks:
+    build: |
+        composer install --prefer-dist --no-scripts --no-progress --no-suggest --optimize-autoloader
+    deploy: |
+        set -e
+        bin/console doctrine:schema:update --force
+
+relationships:
+    database: "mysql:mysql"
+
+web:
+    locations:
+        "/":
+            passthru: "/index.php"
+
