@@ -10,7 +10,10 @@ variables:
 # Configure deployment hooks
 hooks:
   build: |
+    set -e
+    echo "export PLATFORM_SH_COMPOSER_VERSION=2" >> $PLATFORM_APP_DIR/.profile
     composer install --prefer-dist --no-scripts --no-progress --no-suggest --optimize-autoloader
+    composer clear-cache
   deploy: |
     set -e
     bin/console doctrine:schema:update --force
