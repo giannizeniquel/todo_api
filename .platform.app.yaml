@@ -1,13 +1,13 @@
 # .platform.app.yaml
 name: todo-api
-type: php:7.4
+type: "php:7.4"
 
-# Definir variables de entorno
+# Define environment variables
 variables:
   env:
     APP_ENV: "prod"
 
-# Configuración de los comandos a ejecutar durante el despliegue
+# Configure deployment hooks
 hooks:
   build: |
     composer install --prefer-dist --no-scripts --no-progress --no-suggest --optimize-autoloader
@@ -15,18 +15,12 @@ hooks:
     set -e
     bin/console doctrine:schema:update --force
 
+# Define relationships
 relationships:
   database: "db:mysql"
 
+# Configure web server
 web:
   locations:
     "/":
       passthru: "/index.php"
-
-app:
-  type: php:7.4
-  build:
-    flavor: composer
-  disk: 1024
-  mounts:
-    "/public": "web"
