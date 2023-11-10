@@ -23,7 +23,7 @@ web:
     "/":
       passthru: "/index.php"
 
-php-fpm:
+app:
   type: php:7.4
   build:
     flavor: composer
