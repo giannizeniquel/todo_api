@@ -17,7 +17,7 @@ hooks:
         bin/console doctrine:schema:update --force
 
 relationships:
-    database: "database:mysql"
+    database: "mysql:todo_api"
 
 web:
     locations:
