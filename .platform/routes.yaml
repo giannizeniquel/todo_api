@@ -1,6 +1,6 @@
 "https://{default}/":
     type: upstream
-    upstream: "web:http"
+    upstream: "todo-api:http"
 
 "http://{default}/":
     type: redirect
