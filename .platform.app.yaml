@@ -4,23 +4,29 @@ type: php:7.4
 
 # Definir variables de entorno
 variables:
-    env:
-        APP_ENV: "prod"
-        
+  env:
+    APP_ENV: "prod"
 
 # Configuración de los comandos a ejecutar durante el despliegue
 hooks:
-    build: |
-        composer install --prefer-dist --no-scripts --no-progress --no-suggest --optimize-autoloader
-    deploy: |
-        set -e
-        bin/console doctrine:schema:update --force
+  build: |
+    composer install --prefer-dist --no-scripts --no-progress --no-suggest --optimize-autoloader
+  deploy: |
+    set -e
+    bin/console doctrine:schema:update --force
 
 relationships:
-    database: "db:mysql"
+  database: "db:mysql"
 
 web:
-    locations:
-        "/":
-            passthru: "/index.php"
+  locations:
+    "/":
+      passthru: "/index.php"
 
+php-fpm:
+  type: php:7.4
+  build:
+    flavor: composer
+  disk: 1024
+  mounts:
+    "/public": "web"
