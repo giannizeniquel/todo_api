@@ -1,6 +1,6 @@
 "https://{default}/":
     type: upstream
-    upstream: "php-fpm:public"
+    upstream: "app:public"
 
 "http://{default}/":
     type: redirect
