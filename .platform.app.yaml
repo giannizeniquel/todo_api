@@ -24,3 +24,11 @@ web:
   locations:
     "/":
       passthru: "/index.php"
+
+php-fpm:
+  type: php:7.4
+  build:
+    flavor: composer
+  disk: 1024
+  mounts:
+    "/public": "web"
