@@ -17,7 +17,7 @@ hooks:
         bin/console doctrine:schema:update --force
 
 relationships:
-    database: "mysql:mysql"
+    db: "mysql:mysql"
 
 web:
     locations:
