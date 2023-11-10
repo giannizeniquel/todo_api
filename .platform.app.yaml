@@ -6,7 +6,7 @@ type: php:7.4
 variables:
     env:
         APP_ENV: "prod"
-        DATABASE_URL: "mysql://:@mysql/todo_api"
+        
 
 # Configuración de los comandos a ejecutar durante el despliegue
 hooks:
