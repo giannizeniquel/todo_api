@@ -1,6 +1,6 @@
 "https://{default}/":
     type: upstream
-    upstream: "app:public"
+    upstream: "public"
 
 "http://{default}/":
     type: redirect
