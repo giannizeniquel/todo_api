@@ -24,7 +24,7 @@ hooks:
 
 # Define relationships
 relationships:
-  database: "db:mysql"
+  database: "todo_api:mysql"
 
 # Configure web server
 web:
