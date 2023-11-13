@@ -20,6 +20,7 @@ hooks:
     composer clear-cache
   deploy: |
     set -e
+    bin/console cache:clear
     bin/console doctrine:schema:update --force
 
 # Define relationships
