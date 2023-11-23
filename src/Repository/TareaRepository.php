@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TareaRepository extends ServiceEntityRepository
 {
-    private $manager;
+    private EntityManagerInterface $manager;
 
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
