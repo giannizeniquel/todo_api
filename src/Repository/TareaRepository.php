@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TareaRepository extends ServiceEntityRepository
 {
-    private $manager;
+    private EntityManagerInterface $manager;
 
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
@@ -26,7 +26,7 @@ class TareaRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
-    public function saveTarea($titulo, $descripcion, $user)
+    public function saveTarea($titulo, $descripcion, $user): ?Tarea
     {
         $tarea = new Tarea();
 
@@ -37,6 +37,8 @@ class TareaRepository extends ServiceEntityRepository
 
         $this->manager->persist($tarea);
         $this->manager->flush();
+
+        return $tarea;
     }
 
     public function updateTarea(Tarea $tarea): ?Tarea

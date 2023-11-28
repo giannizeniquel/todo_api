@@ -40,17 +40,31 @@ class TareaController extends AbstractController
 
         $titulo = $data['titulo'];
         $descripcion = $data['descripcion'];
-        $userId = 1;
+        $userId = $data['userId'];
         $user = new User();
 
-        if(empty($titulo) || empty($descripcion)){
+        if(empty($titulo) || empty($descripcion) || empty($userId)){
             throw new NotFoundHttpException('No se pudo crear la tarea. Hay datos vacios que son de caracter obligatorio.');
         }
         
         $user = $this->userRepository->findOneById($userId);
-        $this->tareaRepository->saveTarea($titulo, $descripcion, $user);
 
-        return new JsonResponse(['status' => 'Tarea creada!'], Response::HTTP_CREATED);
+        //me devuelve la tarea creada
+        $nueva_tarea = $this->tareaRepository->saveTarea($titulo, $descripcion, $user);
+
+        $data = [
+            'status' => 'Tarea creada!',
+            'nueva_tarea' => [
+                'id' => $nueva_tarea->getId(),
+                'titulo' => $nueva_tarea->getTitulo(),
+                'descripcion' => $nueva_tarea->getDescripcion(),
+                'terminada' => $nueva_tarea->isTerminada(),
+                'fechaCreacion' => date('d-m-Y H:i', $nueva_tarea->getCreatedAt()->getTimestamp()),
+                'user' => $nueva_tarea->getUser()->getName(),
+            ]
+        ]; 
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
