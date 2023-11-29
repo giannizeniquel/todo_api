@@ -1,6 +1,14 @@
 <IfModule mod_rewrite.c>
     Options -MultiViews
     RewriteEngine On
+
+    # Sets the HTTP_AUTHORIZATION header removed by Apache
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+    # If the requested filename exists, simply serve it.
+    # Otherwise, rewrite all other queries to the front controller.
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ public/index.php [L]
 </IfModule>
