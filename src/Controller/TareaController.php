@@ -134,7 +134,7 @@ class TareaController extends AbstractController
 
         empty($data['titulo']) ? true : $tarea->setTitulo($data['titulo']);
         empty($data['descripcion']) ? true : $tarea->setDescripcion($data['descripcion']);
-        empty($data['terminada']) ? true : $tarea->setTerminada($data['terminada']);
+        $tarea->setTerminada($data['terminada']);
 
         $this->tareaRepository->updateTarea($tarea);
 
