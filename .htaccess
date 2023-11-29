@@ -10,5 +10,5 @@
     # Otherwise, rewrite all other queries to the front controller.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ public/index.php [L]
+    RewriteRule ^ %{ENV:BASE}/public/index.php [L]
 </IfModule>
