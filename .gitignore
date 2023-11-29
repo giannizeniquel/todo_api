@@ -1,8 +1,13 @@
 
 ###> symfony/framework-bundle ###
+/.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+/config/packages/doctrine.yaml
+/config/packages/monolog.yaml
+/config/packages/twig.yaml
+/config/bundles.php
 /public/bundles/
 /var/
 /vendor/
