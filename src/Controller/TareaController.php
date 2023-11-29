@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * 
- * @Route(path="/")
+ * @Route(path="/api/")
  */
 class TareaController extends AbstractController
 {
